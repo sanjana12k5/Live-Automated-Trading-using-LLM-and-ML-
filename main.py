@@ -29,3 +29,15 @@ dt = detect_double_top(structure)
 
 print("Double Bottom:", db)
 print("Double Top:", dt)
+from execution.signal_engine import generate_signal
+
+signal = generate_signal(
+    trend=trend,
+    choch=choch,
+    fib=fib,
+    double_bottom=db,
+    double_top=dt
+)
+
+print("FINAL SIGNAL:")
+print(signal)
