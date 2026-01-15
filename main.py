@@ -16,3 +16,16 @@ print("CHOCH:", choch)
 print("Last 5 structure points:")
 for s in structure[-5:]:
     print(s)
+from patterns.fib.confluence import fib_confluence
+
+fib = fib_confluence(swings, df)
+
+print("Fib Confluence:")
+print(fib)
+from patterns.chart_patterns import detect_double_bottom, detect_double_top
+
+db = detect_double_bottom(structure)
+dt = detect_double_top(structure)
+
+print("Double Bottom:", db)
+print("Double Top:", dt)
