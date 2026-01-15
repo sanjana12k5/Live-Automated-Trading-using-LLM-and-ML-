@@ -10,6 +10,7 @@ structure = label_structure(swings)
 trend = detect_trend(structure)
 choch = detect_choch(structure)
 
+"""
 print("Trend:", trend)
 print("CHOCH:", choch)
 
@@ -57,3 +58,14 @@ sells = [s for s in signals if s["signal"] == "SELL"]
 
 print("BUY signals:", len(buys))
 print("SELL signals:", len(sells))
+"""
+
+from data.processed.loader import load_stock
+from features.feature_builder import build_features
+
+df = load_stock("AAPL")
+
+features = build_features(df)
+
+print(features.head())
+print(features.describe())
