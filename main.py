@@ -41,3 +41,19 @@ signal = generate_signal(
 
 print("FINAL SIGNAL:")
 print(signal)
+from data.processed.loader import load_stock
+from backtest.dataset_scan import scan_dataset
+
+df = load_stock("AAPL")
+
+signals = scan_dataset(df)
+
+print(f"Total signals found: {len(signals)}")
+
+for s in signals[:10]:
+    print(s)
+buys = [s for s in signals if s["signal"] == "BUY"]
+sells = [s for s in signals if s["signal"] == "SELL"]
+
+print("BUY signals:", len(buys))
+print("SELL signals:", len(sells))
