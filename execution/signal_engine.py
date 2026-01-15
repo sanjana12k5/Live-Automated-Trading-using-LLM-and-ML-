@@ -16,7 +16,11 @@ def generate_signal(
             confidence = double_bottom["confidence"]
 
             if fib["fib_confluence"]:
-                confidence = min(confidence + fib["confidence"] * 0.2, 1.0)
+                confidence += fib["confidence"] * 0.1  # small boost only
+
+            # 🔒 GLOBAL HARD CAP
+            confidence = max(0.6, min(confidence, 0.85))
+            confidence = round(confidence, 2)
 
             return {
                 "signal": "BUY",
