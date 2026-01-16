@@ -1,63 +1,82 @@
+import os
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
-from concurrent.futures import ProcessPoolExecutor
 
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, confusion_matrix
 
 from data.processed.loader import load_stock
 from features.feature_builder import build_features
 from backtest.dataset_scan import scan_dataset
+from ml.model import save_model
 
 
+# -------------------------------------------------
+# CONFIG (important for Windows stability)
+# -------------------------------------------------
+os.environ["OMP_NUM_THREADS"] = "1"
+
+
+# -------------------------------------------------
+# Load all symbols
+# -------------------------------------------------
 def get_all_symbols(path="data/raw/sandp500/all_stocks_5yr.csv"):
     df = pd.read_csv(path)
     return df["Name"].unique().tolist()
 
 
-def process_symbol(symbol):
-    try:
-        df = load_stock(symbol)
-        if len(df) < 300:
-            return None
-
-        features = build_features(df)
-        signals = scan_dataset(df)
-
-        if signals:
-            signal_dates = {s["date"] for s in signals}
-            features["label"] = features["date"].isin(signal_dates).astype(int)
-        else:
-            features["label"] = 0
-
-        return features
-
-    except Exception:
-        return None
-
-
-def build_global_dataset_parallel():
+# -------------------------------------------------
+# Build dataset SEQUENTIALLY (fast + safe)
+# -------------------------------------------------
+def build_global_dataset():
     symbols = get_all_symbols()
     print(f"Total symbols: {len(symbols)}")
 
     all_features = []
+    processed = 0
+    skipped = 0
 
-    with ProcessPoolExecutor() as executor:
-        for result in tqdm(
-            executor.map(process_symbol, symbols),
-            total=len(symbols),
-            desc="Processing symbols"
-        ):
-            if result is not None:
-                all_features.append(result)
+    for symbol in tqdm(symbols, desc="Processing symbols"):
+        try:
+            df = load_stock(symbol)
+
+            if df is None or len(df) < 300:
+                skipped += 1
+                continue
+
+            # 🔥 compute signals ONCE per symbol
+            signals = scan_dataset(df)
+            signal_dates = {s["date"] for s in signals}
+
+            # 🔥 build features ONCE per symbol
+            features = build_features(df)
+
+            # 🔥 label via O(1) lookup
+            features["label"] = features["date"].isin(signal_dates).astype(int)
+
+            all_features.append(features)
+            processed += 1
+
+        except Exception as e:
+            skipped += 1
+            print(f"[SKIP] {symbol}: {e}")
+
+    print("\nSUMMARY")
+    print("Processed symbols:", processed)
+    print("Skipped symbols:", skipped)
+
+    if len(all_features) == 0:
+        raise RuntimeError("No data generated — check feature builder")
 
     return pd.concat(all_features, ignore_index=True)
 
 
-def train_xgb_all_fast():
-    dataset = build_global_dataset_parallel()
+# -------------------------------------------------
+# Train XGBoost on full dataset
+# -------------------------------------------------
+def train_xgb_all():
+    dataset = build_global_dataset()
 
     print("\nDataset shape:", dataset.shape)
     print("Positive labels:", dataset["label"].sum())
@@ -80,22 +99,31 @@ def train_xgb_all_fast():
         scale_pos_weight=pos_weight,
         eval_metric="logloss",
         random_state=42,
-        n_jobs=-1          # 🔥 USE ALL CORES
+        n_jobs=-1
     )
 
     print("\nTraining XGBoost...")
     model.fit(X_train, y_train)
 
+    # 🔥 SAVE MODEL (THIS WAS MISSING EARLIER)
+    save_model(model)
+
+    # -------------------------------------------------
+    # Inspect probabilities (ranking sanity check)
+    # -------------------------------------------------
     probs = model.predict_proba(X_test)[:, 1]
 
     print("\nProbability stats:")
-    print("Min:", np.min(probs))
+    print("Min :", np.min(probs))
     print("Mean:", np.mean(probs))
-    print("Max:", np.max(probs))
+    print("Max :", np.max(probs))
 
     print("\nTop 10 probabilities:")
     print(sorted(probs, reverse=True)[:10])
 
 
+# -------------------------------------------------
+# Entry point
+# -------------------------------------------------
 if __name__ == "__main__":
-    train_xgb_all_fast()
+    train_xgb_all()

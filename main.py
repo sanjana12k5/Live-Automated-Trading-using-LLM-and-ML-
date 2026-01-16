@@ -58,7 +58,7 @@ sells = [s for s in signals if s["signal"] == "SELL"]
 
 print("BUY signals:", len(buys))
 print("SELL signals:", len(sells))
-"""
+
 
 from data.processed.loader import load_stock
 from features.feature_builder import build_features
@@ -69,3 +69,9 @@ features = build_features(df)
 
 print(features.head())
 print(features.describe())
+"""
+from ml.pipeline import run_ml_pipeline
+
+top_trades = run_ml_pipeline("AAPL")
+
+print(top_trades[["date", "close", "ml_probability"]].head(10))
