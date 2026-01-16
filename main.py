@@ -69,9 +69,38 @@ features = build_features(df)
 
 print(features.head())
 print(features.describe())
-"""
+
 from ml.pipeline import run_ml_pipeline
 
 top_trades = run_ml_pipeline("AAPL")
 
 print(top_trades[["date", "close", "ml_probability"]].head(10))
+
+from backtest.ml_vs_rule import compare_ml_vs_rule
+
+rule_trades, ml_trades = compare_ml_vs_rule("AAPL")
+
+print("RULE TRADES:", len(rule_trades))
+print("ML TRADES:", len(ml_trades))
+
+print("\nTop ML trades:")
+print(ml_trades[["date", "close", "ml_probability"]].head(10))
+"""
+from backtest.ml_vs_rule import compare_ml_vs_rule
+from backtest.pnl_engine import simulate_trades
+from backtest.equity_curve import plot_equity_curve
+from data.processed.loader import load_stock
+
+df = load_stock("AAPL")
+
+rule_trades, ml_trades = compare_ml_vs_rule("AAPL")
+
+rule_results = simulate_trades(df, rule_trades)
+ml_results = simulate_trades(df, ml_trades)
+
+
+print("Rule PnL:", sum(r["pnl"] for r in rule_results))
+print("ML PnL:", sum(r["pnl"] for r in ml_results))
+
+plot_equity_curve(rule_results, "Rule-Based Equity")
+plot_equity_curve(ml_results, "ML-Ranked Equity")

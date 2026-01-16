@@ -1,22 +1,14 @@
-def rank_trades(df, method="percentile", value=99.5):
+import pandas as pd
+
+
+def rank_trades_daily(df, top_k=1):
     """
-    Rank trades and return top candidates
-
-    method:
-      - "percentile": take top X percentile
-      - "top_k": take top K rows
+    Pick top K ML trades per day
     """
+    selected = []
 
-    df = df.sort_values("ml_probability", ascending=False)
+    for date, group in df.groupby("date"):
+        group = group.sort_values("ml_probability", ascending=False)
+        selected.append(group.head(top_k))
 
-    if method == "percentile":
-        cutoff = df["ml_probability"].quantile(value / 100)
-        selected = df[df["ml_probability"] >= cutoff]
-
-    elif method == "top_k":
-        selected = df.head(int(value))
-
-    else:
-        raise ValueError("Invalid ranking method")
-
-    return selected
+    return pd.concat(selected, ignore_index=True)
