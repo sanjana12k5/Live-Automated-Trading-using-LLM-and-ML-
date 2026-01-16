@@ -1,7 +1,16 @@
-def simulate_trades(df, trades, base_sl=0.02, base_tp=0.04):
+def simulate_trades(
+    df,
+    trades,
+    base_sl=0.02,
+    base_tp=0.04,
+    base_risk=1.0
+):
     """
-    Trade simulator with ML-adaptive TP / SL
+    Trade simulator with:
+    - ML-adaptive TP/SL
+    - Volatility-normalized position sizing
     """
+
     results = []
 
     for trade in trades:
@@ -10,8 +19,15 @@ def simulate_trades(df, trades, base_sl=0.02, base_tp=0.04):
         direction = trade["signal"]
 
         confidence = trade.get("ml_probability", 1.0)
+        atr = trade.get("atr", None)
 
-        # 🔥 adaptive exits
+        # skip if ATR missing
+        if atr is None or atr <= 0:
+            continue
+
+        # -------------------------------
+        # Adaptive TP / SL
+        # -------------------------------
         sl_pct = base_sl * (1 - confidence)
         tp_pct = base_tp * (1 + confidence)
 
@@ -27,6 +43,11 @@ def simulate_trades(df, trades, base_sl=0.02, base_tp=0.04):
         else:
             sl = entry_price * (1 + sl_pct)
             tp = entry_price * (1 - tp_pct)
+
+        # -------------------------------
+        # Position sizing (VOLATILITY)
+        # -------------------------------
+        position_size = base_risk * (confidence / atr)
 
         outcome = "OPEN"
         exit_price = entry_price
@@ -54,17 +75,19 @@ def simulate_trades(df, trades, base_sl=0.02, base_tp=0.04):
                     outcome = "TP"
                     break
 
-        pnl = (
+        raw_pnl = (
             exit_price - entry_price
             if direction == "BUY"
             else entry_price - exit_price
         )
 
+        pnl = position_size * raw_pnl
+
         results.append({
             "entry_date": entry_date,
             "confidence": confidence,
-            "sl_pct": sl_pct,
-            "tp_pct": tp_pct,
+            "atr": atr,
+            "position_size": position_size,
             "outcome": outcome,
             "pnl": pnl
         })

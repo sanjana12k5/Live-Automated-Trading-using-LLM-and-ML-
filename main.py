@@ -104,3 +104,8 @@ print("ML PnL:", sum(r["pnl"] for r in ml_results))
 
 plot_equity_curve(rule_results, "Rule-Based Equity")
 plot_equity_curve(ml_results, "ML-Ranked Equity")
+print("Avg position size:",
+      sum(r["position_size"] for r in ml_results) / len(ml_results))
+
+print("Max position size:",
+      max(r["position_size"] for r in ml_results))

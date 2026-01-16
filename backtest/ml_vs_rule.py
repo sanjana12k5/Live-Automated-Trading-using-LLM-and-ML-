@@ -35,7 +35,9 @@ def compare_ml_vs_rule(symbol="AAPL"):
                 "date": trade_date,
                 "price": t["price"],
                 "signal": t["signal"],
-                "ml_probability": row["ml_probability"]
+                "ml_probability": row["ml_probability"],
+                "atr": row["atr"]
             })
+
 
     return rule_trades, ml_trades
