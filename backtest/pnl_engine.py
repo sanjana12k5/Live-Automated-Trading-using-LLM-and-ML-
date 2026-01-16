@@ -1,6 +1,6 @@
-def simulate_trades(df, trades, sl_pct=0.02, tp_pct=0.04):
+def simulate_trades(df, trades, base_sl=0.02, base_tp=0.04):
     """
-    Simple trade simulator with fixed SL / TP
+    Trade simulator with ML-adaptive TP / SL
     """
     results = []
 
@@ -9,14 +9,24 @@ def simulate_trades(df, trades, sl_pct=0.02, tp_pct=0.04):
         entry_price = trade["price"]
         direction = trade["signal"]
 
+        confidence = trade.get("ml_probability", 1.0)
+
+        # 🔥 adaptive exits
+        sl_pct = base_sl * (1 - confidence)
+        tp_pct = base_tp * (1 + confidence)
+
         entry_idx = df.index[df["date"] == entry_date]
         if len(entry_idx) == 0:
             continue
 
         entry_idx = entry_idx[0]
 
-        sl = entry_price * (1 - sl_pct) if direction == "BUY" else entry_price * (1 + sl_pct)
-        tp = entry_price * (1 + tp_pct) if direction == "BUY" else entry_price * (1 - tp_pct)
+        if direction == "BUY":
+            sl = entry_price * (1 - sl_pct)
+            tp = entry_price * (1 + tp_pct)
+        else:
+            sl = entry_price * (1 + sl_pct)
+            tp = entry_price * (1 - tp_pct)
 
         outcome = "OPEN"
         exit_price = entry_price
@@ -44,16 +54,17 @@ def simulate_trades(df, trades, sl_pct=0.02, tp_pct=0.04):
                     outcome = "TP"
                     break
 
-        confidence = trade.get("ml_probability", 1.0)
-        pnl = confidence * (
-            (exit_price - entry_price)
+        pnl = (
+            exit_price - entry_price
             if direction == "BUY"
-            else (entry_price - exit_price)
+            else entry_price - exit_price
         )
 
         results.append({
             "entry_date": entry_date,
-            "exit_price": exit_price,
+            "confidence": confidence,
+            "sl_pct": sl_pct,
+            "tp_pct": tp_pct,
             "outcome": outcome,
             "pnl": pnl
         })
