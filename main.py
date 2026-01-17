@@ -85,7 +85,7 @@ print("ML TRADES:", len(ml_trades))
 
 print("\nTop ML trades:")
 print(ml_trades[["date", "close", "ml_probability"]].head(10))
-"""
+
 from backtest.ml_vs_rule import compare_ml_vs_rule
 from backtest.pnl_engine import simulate_trades
 from backtest.equity_curve import plot_equity_curve
@@ -109,3 +109,27 @@ print("Avg position size:",
 
 print("Max position size:",
       max(r["position_size"] for r in ml_results))
+
+from simulator.virtual_simulator import plot_simulation
+from data.processed.loader import load_stock
+
+from simulator.run_simulation import run_simulation
+
+portfolio = run_simulation("AAPL")
+df = load_stock("AAPL")
+plot_simulation(df, portfolio.trade_log, symbol="AAPL")
+
+print("Final capital:", portfolio.cash)
+print("Total trades:", len(portfolio.trade_log))
+
+for t in portfolio.trade_log[:5]:
+    print(t)
+"""
+from simulator.live_simulator import run_live_simulation
+
+run_live_simulation(
+    candles=800,
+    start_price=100.0,
+    symbol="SIMULATED"
+)
+

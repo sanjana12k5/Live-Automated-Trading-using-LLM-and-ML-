@@ -8,20 +8,25 @@ from patterns.trend import detect_trend, detect_choch
 from patterns.fib.confluence import fib_confluence
 from patterns.chart_patterns import detect_double_bottom, detect_double_top
 
-
-def build_features(df, min_bars=100):
+def build_features(df, min_bars=100, last_only=False):
     rows = []
+
+    # ensure we work on a copy (prevents SettingWithCopyWarning)
+    df = df.copy()
 
     atr_indicator = AverageTrueRange(
         high=df["high"], low=df["low"], close=df["close"], window=14
     )
-    df["atr"] = atr_indicator.average_true_range()
+    df.loc[:, "atr"] = atr_indicator.average_true_range()
 
     rsi_indicator = RSIIndicator(df["close"], window=14)
-    df["rsi"] = rsi_indicator.rsi()
+    df.loc[:, "rsi"] = rsi_indicator.rsi()
 
-    for i in range(min_bars, len(df)):
-        slice_df = df.iloc[:i].copy()
+    # if last_only → compute only last candle
+    start = len(df) - 1 if last_only else min_bars
+
+    for i in range(start, len(df)):
+        slice_df = df.iloc[max(0, i - 300): i + 1]
 
         swings = detect_swings(slice_df)
         if len(swings) < 5:
@@ -33,7 +38,6 @@ def build_features(df, min_bars=100):
         choch = detect_choch(structure)
 
         fib = fib_confluence(swings, slice_df)
-
         db = detect_double_bottom(structure)
         dt = detect_double_top(structure)
 
@@ -49,9 +53,14 @@ def build_features(df, min_bars=100):
             "pattern_conf": max(db.get("confidence", 0), dt.get("confidence", 0)),
             "atr": slice_df["atr"].iloc[-1],
             "rsi": slice_df["rsi"].iloc[-1],
-            "volume_ratio": slice_df["volume"].iloc[-1] /
-                            slice_df["volume"].rolling(20).mean().iloc[-1]
-                            if slice_df["volume"].rolling(20).mean().iloc[-1] else 1
+            "volume_ratio": (
+                slice_df["volume"].iloc[-1]
+                / slice_df["volume"].rolling(20).mean().iloc[-1]
+                if slice_df["volume"].rolling(20).mean().iloc[-1] else 1
+            ),
         })
+
+        if last_only:
+            break
 
     return pd.DataFrame(rows)
