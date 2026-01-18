@@ -7,60 +7,94 @@ from patterns.structure import detect_swings, label_structure
 from patterns.trend import detect_trend, detect_choch
 from patterns.fib.confluence import fib_confluence
 from patterns.chart_patterns import detect_double_bottom, detect_double_top
-
-def build_features(df, min_bars=100, last_only=False):
+from patterns.candlestick_patterns import (
+    detect_hammer,
+    detect_inverted_hammer,
+    detect_engulfing,
+    detect_morning_star,
+    detect_evening_star,
+    detect_bullish_harami,
+    detect_bearish_harami,
+    detect_three_white_soldiers,
+    detect_three_black_crows,
+    detect_bullish_breakout,
+    detect_bearish_breakdown,
+)
+def build_features(df, min_bars=100):
     rows = []
 
-    # ensure we work on a copy (prevents SettingWithCopyWarning)
     df = df.copy()
 
-    atr_indicator = AverageTrueRange(
+    # ATR + RSI (safe assignment)
+    atr = AverageTrueRange(
         high=df["high"], low=df["low"], close=df["close"], window=14
-    )
-    df.loc[:, "atr"] = atr_indicator.average_true_range()
+    ).average_true_range()
 
-    rsi_indicator = RSIIndicator(df["close"], window=14)
-    df.loc[:, "rsi"] = rsi_indicator.rsi()
+    rsi = RSIIndicator(df["close"], window=14).rsi()
 
-    # if last_only → compute only last candle
-    start = len(df) - 1 if last_only else min_bars
+    df.loc[:, "atr"] = atr
+    df.loc[:, "rsi"] = rsi
 
-    for i in range(start, len(df)):
+    for i in range(min_bars, len(df)):
         slice_df = df.iloc[max(0, i - 300): i + 1]
 
+        # -------- STRUCTURE --------
         swings = detect_swings(slice_df)
         if len(swings) < 5:
             continue
 
         structure = label_structure(swings)
-
         trend = detect_trend(structure)
         choch = detect_choch(structure)
 
         fib = fib_confluence(swings, slice_df)
-        db = detect_double_bottom(structure)
-        dt = detect_double_top(structure)
 
-        rows.append({
-            "date": slice_df["date"].iloc[-1],
-            "close": slice_df["close"].iloc[-1],
+        # -------- PRICE DATA --------
+        prev = slice_df.iloc[-2]
+        curr = slice_df.iloc[-1]
+        last3 = slice_df.iloc[-3:].to_dict("records")
+
+        # -------- CANDLESTICK PATTERNS --------
+        bull_engulf, bear_engulf = detect_engulfing(prev, curr)
+
+        features = {
+            "date": curr["date"],
+            "close": curr["close"],
+
+            # Trend / Structure
             "trend": 1 if trend == "UPTREND" else -1 if trend == "DOWNTREND" else 0,
             "choch": int(choch),
+
+            # Fibonacci
             "fib_confluence": int(fib["fib_confluence"]),
             "fib_strength": fib["confidence"],
-            "double_bottom": int(db.get("detected", False)),
-            "double_top": int(dt.get("detected", False)),
-            "pattern_conf": max(db.get("confidence", 0), dt.get("confidence", 0)),
+
+            # Bullish patterns
+            "hammer": int(detect_hammer(curr)),
+            "inv_hammer": int(detect_inverted_hammer(curr)),
+            "bull_engulf": int(bull_engulf),
+            "morning_star": int(detect_morning_star(last3)),
+            "bull_harami": int(detect_bullish_harami(prev, curr)),
+            "three_white": int(detect_three_white_soldiers(last3)),
+            "bull_breakout": int(detect_bullish_breakout(slice_df)),
+
+            # Bearish patterns
+            "bear_engulf": int(bear_engulf),
+            "evening_star": int(detect_evening_star(last3)),
+            "bear_harami": int(detect_bearish_harami(prev, curr)),
+            "three_black": int(detect_three_black_crows(last3)),
+            "bear_breakdown": int(detect_bearish_breakdown(slice_df)),
+
+            # Indicators
             "atr": slice_df["atr"].iloc[-1],
             "rsi": slice_df["rsi"].iloc[-1],
             "volume_ratio": (
-                slice_df["volume"].iloc[-1]
-                / slice_df["volume"].rolling(20).mean().iloc[-1]
+                curr["volume"] /
+                slice_df["volume"].rolling(20).mean().iloc[-1]
                 if slice_df["volume"].rolling(20).mean().iloc[-1] else 1
             ),
-        })
+        }
 
-        if last_only:
-            break
+        rows.append(features)
 
     return pd.DataFrame(rows)
