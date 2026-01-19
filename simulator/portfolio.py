@@ -11,7 +11,7 @@ class Portfolio:
         self.positions.append(trade)
 
     def close_position(self, trade, exit_price, date, reason):
-        # --- PnL ---
+        # ---- PnL calculation ----
         pnl = (
             exit_price - trade["entry_price"]
             if trade["signal"] == "BUY"
@@ -20,12 +20,12 @@ class Portfolio:
 
         self.cash += pnl
 
-        # ✅ LOG EVERYTHING THE PLOTTER NEEDS
+        # ---- Trade log (for plotter + stats) ----
         self.trade_log.append({
             "entry_date": trade["entry_date"],
             "exit_date": date,
-            "entry_price": trade["entry_price"],   # ✅ FIX
-            "exit_price": exit_price,               # ✅ FIX
+            "entry_price": trade["entry_price"],
+            "exit_price": exit_price,
             "signal": trade["signal"],
             "confidence": trade["confidence"],
             "pattern": trade.get("pattern"),

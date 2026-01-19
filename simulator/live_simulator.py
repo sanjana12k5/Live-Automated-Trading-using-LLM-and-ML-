@@ -17,19 +17,23 @@ from ml.inference import predict_probabilities
 
 
 def run_live_simulation(
-    candles=500,
+    candles=800,
     start_price=100.0,
     symbol="SIMULATED"
 ):
     print(f"Starting LIVE simulation: {symbol} @ {start_price}")
 
+    # ---------- INIT ----------
     market = LiveMarket(start_price=start_price)
     plotter = LivePlotter(symbol=symbol)
     portfolio = Portfolio()
     model = load_model()
 
-    MIN_ML_PROB = 0.55  # ML = confirmation only
+    MIN_ML_PROB = 0.55     # ML = confirmation only
+    COOLDOWN = 10          # candles between trades
+    last_trade_step = -999
 
+    # ---------- LIVE LOOP ----------
     for step in range(candles):
         candle = market.next_candle()
         df = market.get_dataframe()
@@ -37,11 +41,13 @@ def run_live_simulation(
         if step % 50 == 0:
             print(f"Processed candle {step}/{candles}")
 
+        # ---- Minimum candles ----
         if len(df) < 5:
             plotter.update(df, portfolio.trade_log, portfolio.cash)
             time.sleep(0.05)
             continue
 
+        # ---------- PATTERN DETECTION ----------
         prev = df.iloc[-2]
         curr = df.iloc[-1]
         last3 = df.iloc[-3:].to_dict("records")
@@ -62,22 +68,23 @@ def run_live_simulation(
             signal = "SELL"
             pattern_name = "Bearish Pattern"
 
-        # ---- ML CONFIRMATION (SAFE) ----
+        # ---------- ML CONFIRMATION ----------
         ml_prob = 1.0
         if signal and len(df) >= 120:
             try:
                 features = df.tail(120).copy()
                 scored = predict_probabilities(model, features)
                 if not scored.empty:
-                    ml_prob = scored["ml_probability"].iloc[-1]
+                    ml_prob = float(scored["ml_probability"].iloc[-1])
             except Exception:
-                ml_prob = 1.0
+                ml_prob = 1.0  # fail-safe
 
-        # ---- OPEN TRADE ----
+        # ---------- OPEN TRADE ----------
         if (
             signal
             and not portfolio.has_open_position()
             and ml_prob >= MIN_ML_PROB
+            and step - last_trade_step >= COOLDOWN
         ):
             price = curr["close"]
 
@@ -87,35 +94,45 @@ def run_live_simulation(
                 "signal": signal,
                 "confidence": ml_prob,
                 "pattern": pattern_name,
+
+                # Tight intraday SL / TP
                 "sl": price * (0.997 if signal == "BUY" else 1.003),
                 "tp": price * (1.006 if signal == "BUY" else 0.994),
             }
 
             portfolio.open_position(trade)
+            last_trade_step = step
 
             print(
-                f"[OPEN] {trade['signal']} @ {price:.2f} | "
+                f"[OPEN] {signal} @ {price:.2f} | "
                 f"{pattern_name} | ML={ml_prob:.2f}"
             )
 
-        # ---- MANAGE TRADES ----
+        # ---------- MANAGE OPEN TRADES ----------
         for trade in portfolio.positions.copy():
             exit_price, reason = check_exit(trade, candle)
             if exit_price is not None:
                 portfolio.close_position(
-                    trade, exit_price, candle["date"], reason
+                    trade,
+                    exit_price,
+                    candle["date"],
+                    reason
                 )
+
+                last_trade_step = step  # ✅ reset cooldown on close
 
                 print(
                     f"[CLOSE] {trade['signal']} | "
                     f"Exit={exit_price:.2f} | {reason}"
                 )
 
+        # ---------- LIVE VISUAL ----------
         plotter.update(df, portfolio.trade_log, portfolio.cash)
         time.sleep(0.05)
 
+    # ---------- SUMMARY ----------
     print("\nSimulation finished")
-    print("Final capital:", portfolio.cash)
+    print("Final capital:", round(portfolio.cash, 2))
     print("Total trades:", len(portfolio.trade_log))
 
     return portfolio

@@ -1,14 +1,18 @@
 import pandas as pd
 
 
-def rank_trades_daily(df, top_k=1):
-    """
-    Pick top K ML trades per day
-    """
-    selected = []
+def rank_trades_daily(df, top_k=2):
+    df = df.copy()
 
-    for date, group in df.groupby("date"):
-        group = group.sort_values("ml_probability", ascending=False)
-        selected.append(group.head(top_k))
+    # Core scoring formula
+    df["score"] = (
+        df["ml_probability"] * 0.5 +
+        df["fib_strength"] * 0.2 +
+        (df["volume_ratio"].clip(0, 3) / 3) * 0.15 +
+        (1 - abs(df["rsi"] - 50) / 50) * 0.15
+    )
 
-    return pd.concat(selected, ignore_index=True)
+    # Penalize chop
+    df.loc[df["atr"] < df["atr"].rolling(20).mean(), "score"] *= 0.6
+
+    return df.sort_values("score", ascending=False).head(top_k)
