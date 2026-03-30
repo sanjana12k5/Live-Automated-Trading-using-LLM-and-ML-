@@ -1,0 +1,305 @@
+
+==================================================
+ 🚀 RUNNING ANALYSIS 1: DEFAULT (ML + PATTERNS) 
+==================================================
+Starting LIVE simulation: AAPL @ 100.0 (Mode: DEFAULT)
+Loading historical data for AAPL...
+Model loaded from ml/models/xgb_global_model.pkl
+Processed candle 0/1259
+Processed candle 50/1259
+[OPEN] BUY @ 57.92 | 3 White Soldiers | Score=0.62 (ML=0.50)
+[CLOSE] BUY | Exit=57.05 | SL
+[OPEN] BUY @ 59.60 | Bullish Engulfing | Score=0.58 (ML=0.50)
+[CLOSE] BUY | Exit=58.71 | SL
+[OPEN] BUY @ 63.25 | 3 White Soldiers | Score=0.62 (ML=0.50)
+[CLOSE] BUY | Exit=62.31 | SL
+[OPEN] BUY @ 63.65 | Bullish Engulfing | Score=0.58 (ML=0.50)
+[CLOSE] BUY | Exit=65.56 | TP
+[REJECT] BUY | Bullish Harami | Score=0.54 (ML=0.50)
+[OPEN] BUY @ 63.28 | Bullish Engulfing | Score=0.58 (ML=0.50)
+[CLOSE] BUY | Exit=62.33 | SL
+[OPEN] BUY @ 62.28 | Bullish Harami | Score=0.57 (ML=0.50)
+[CLOSE] BUY | Exit=61.35 | SL
+[REJECT] BUY | Bullish Harami | Score=0.54 (ML=0.50)
+[OPEN] BUY @ 59.55 | Inverted Hammer | Score=0.57 (ML=0.50)
+[CLOSE] BUY | Exit=58.65 | SL
+[OPEN] BUY @ 59.78 | 3 White Soldiers | Score=0.62 (ML=0.50)
+[CLOSE] BUY | Exit=58.89 | SL
+Processed candle 100/1259
+[OPEN] BUY @ 60.34 | Bullish Engulfing | Score=0.58 (ML=0.50)
+[CLOSE] BUY | Exit=59.43 | SL
+[OPEN] BUY @ 61.04 | 3 White Soldiers | Score=0.62 (ML=0.50)
+[CLOSE] BUY | Exit=61.07 | SL
+[OPEN] BUY @ 61.47 | 3 White Soldiers | Score=0.62 (ML=0.50)
+[CLOSE] BUY | Exit=61.50 | SL
+[OPEN] BUY @ 62.93 | Bullish Engulfing | Score=0.58 (ML=0.50)
+[CLOSE] BUY | Exit=62.96 | SL
+[OPEN] BUY @ 64.76 | 3 White Soldiers | Score=0.62 (ML=0.50)
+[CLOSE] BUY | Exit=66.70 | TP
+[REJECT] BUY | Inverted Hammer | Score=0.35 (ML=0.12)
+[REJECT] BUY | Inverted Hammer | Score=0.40 (ML=0.20)
+Processed candle 150/1259
+[OPEN] BUY @ 67.47 | Inverted Hammer | Score=0.70 (ML=0.77)
+[CLOSE] BUY | Exit=70.80 | TP
+[OPEN] BUY @ 74.37 | Bullish Engulfing | Score=0.40 (ML=0.15)
+Processed candle 200/1259
+[CLOSE] BUY | Exit=77.11 | TP
+[REJECT] SELL | 3 Black Crows | Score=0.71 (ML=0.61)
+[OPEN] BUY @ 80.15 | Bullish Engulfing | Score=0.65 (ML=0.54)
+[CLOSE] BUY | Exit=78.88 | SL
+[OPEN] BUY @ 79.62 | 3 White Soldiers | Score=0.70 (ML=0.59)
+[CLOSE] BUY | Exit=78.19 | SL
+[REJECT] SELL | Double Top | Score=0.73 (ML=0.58)
+[OPEN] BUY @ 72.68 | Bullish Engulfing | Score=0.63 (ML=0.59)
+Processed candle 250/1259
+[CLOSE] BUY | Exit=75.97 | TP
+[REJECT] SELL | Double Top | Score=0.79 (ML=0.68)
+[REJECT] SELL | Double Top | Score=0.76 (ML=0.63)
+[OPEN] BUY @ 77.78 | Bullish Engulfing | Score=0.50 (ML=0.36)
+[CLOSE] BUY | Exit=76.26 | SL
+[OPEN] BUY @ 75.38 | Bullish Engulfing | Score=0.66 (ML=0.63)
+[CLOSE] BUY | Exit=73.96 | SL
+[OPEN] BUY @ 75.91 | Bullish Engulfing | Score=0.76 (ML=0.67)
+[CLOSE] BUY | Exit=75.95 | SL
+[OPEN] BUY @ 75.76 | Bullish Engulfing | Score=0.38 (ML=0.10)
+[CLOSE] BUY | Exit=74.72 | SL
+Processed candle 300/1259
+[OPEN] BUY @ 75.96 | 3 White Soldiers | Score=0.74 (ML=0.71)
+[CLOSE] BUY | Exit=78.06 | TP
+[OPEN] BUY @ 84.84 | Inverted Hammer | Score=0.42 (ML=0.18)
+[CLOSE] BUY | Exit=84.88 | SL
+[OPEN] BUY @ 86.62 | Double Bottom | Score=0.82 (ML=0.73)
+Processed candle 350/1259
+[CLOSE] BUY | Exit=89.08 | TP
+[OPEN] BUY @ 97.67 | Bullish Engulfing | Score=0.40 (ML=0.20)
+[CLOSE] BUY | Exit=100.85 | TP
+[OPEN] BUY @ 101.32 | Double Bottom | Score=0.74 (ML=0.60)
+[CLOSE] BUY | Exit=99.95 | SL
+[OPEN] BUY @ 101.00 | Double Bottom | Score=0.72 (ML=0.57)
+[CLOSE] BUY | Exit=98.98 | SL
+Processed candle 400/1259
+[OPEN] BUY @ 102.64 | Bullish Engulfing | Score=0.38 (ML=0.16)
+[CLOSE] BUY | Exit=100.80 | SL
+[REJECT] SELL | Double Top | Score=0.92 (ML=0.90)
+[OPEN] BUY @ 99.90 | Bullish Harami | Score=0.61 (ML=0.57)
+[CLOSE] BUY | Exit=97.88 | SL
+Processed candle 450/1259
+[OPEN] BUY @ 115.49 | Inverted Hammer | Score=0.45 (ML=0.29)
+[CLOSE] BUY | Exit=113.24 | SL
+[OPEN] BUY @ 111.62 | Inverted Hammer | Score=0.40 (ML=0.20)
+[CLOSE] BUY | Exit=109.10 | SL
+[REJECT] SELL | Bearish Engulfing | Score=0.78 (ML=0.77)
+[OPEN] BUY @ 118.63 | Bullish Engulfing | Score=0.36 (ML=0.14)
+Processed candle 500/1259
+[CLOSE] BUY | Exit=125.14 | TP
+[OPEN] BUY @ 127.83 | Bullish Engulfing | Score=0.48 (ML=0.26)
+[CLOSE] BUY | Exit=125.24 | SL
+[REJECT] SELL | Double Top | Score=0.89 (ML=0.85)
+[REJECT] SELL | Double Top | Score=0.73 (ML=0.59)
+[OPEN] BUY @ 126.37 | Bullish Engulfing | Score=0.58 (ML=0.46)
+Processed candle 550/1259
+[CLOSE] BUY | Exit=126.43 | SL
+[OPEN] BUY @ 132.65 | Bullish Engulfing | Score=0.53 (ML=0.36)
+[CLOSE] BUY | Exit=130.51 | SL
+[REJECT] SELL | 3 Black Crows | Score=0.76 (ML=0.67)
+[OPEN] BUY @ 128.95 | Bullish Engulfing | Score=0.55 (ML=0.39)
+[CLOSE] BUY | Exit=126.25 | SL
+Processed candle 600/1259
+[OPEN] BUY @ 126.82 | Bullish Engulfing | Score=0.39 (ML=0.11)
+[CLOSE] BUY | Exit=124.74 | SL
+[REJECT] BUY | Inverted Hammer | Score=0.33 (ML=0.14)
+[OPEN] BUY @ 112.34 | Bullish Engulfing | Score=0.59 (ML=0.51)
+Processed candle 650/1259
+[CLOSE] BUY | Exit=108.06 | SL
+[OPEN] BUY @ 111.31 | 3 White Soldiers | Score=0.79 (ML=0.78)
+[CLOSE] BUY | Exit=111.37 | SL
+[REJECT] SELL | 3 Black Crows | Score=0.70 (ML=0.64)
+Processed candle 700/1259
+[OPEN] BUY @ 117.29 | Bullish Engulfing | Score=0.61 (ML=0.48)
+[CLOSE] BUY | Exit=117.35 | SL
+[OPEN] BUY @ 108.61 | Bullish Engulfing | Score=0.40 (ML=0.13)
+[CLOSE] BUY | Exit=106.18 | SL
+[OPEN] BUY @ 99.99 | Bullish Harami | Score=0.62 (ML=0.63)
+[CLOSE] BUY | Exit=96.89 | SL
+Processed candle 750/1259
+[OPEN] BUY @ 96.64 | Bullish Engulfing | Score=0.59 (ML=0.46)
+[CLOSE] BUY | Exit=102.11 | TP
+[OPEN] BUY @ 107.68 | Bullish Engulfing | Score=0.41 (ML=0.15)
+[CLOSE] BUY | Exit=105.77 | SL
+[OPEN] BUY @ 109.99 | Bullish Engulfing | Score=0.50 (ML=0.31)
+Processed candle 800/1259
+[CLOSE] BUY | Exit=110.04 | SL
+[REJECT] BUY | Inverted Hammer | Score=0.33 (ML=0.15)
+[OPEN] BUY @ 93.42 | Bullish Engulfing | Score=0.37 (ML=0.15)
+[CLOSE] BUY | Exit=91.32 | SL
+[OPEN] BUY @ 93.88 | Morning Star | Score=0.68 (ML=0.57)
+[CLOSE] BUY | Exit=91.66 | SL
+[OPEN] BUY @ 94.56 | Bullish Engulfing | Score=0.63 (ML=0.54)
+[CLOSE] BUY | Exit=94.61 | SL
+[OPEN] BUY @ 99.86 | 3 White Soldiers | Score=0.70 (ML=0.63)
+[CLOSE] BUY | Exit=97.96 | SL
+Processed candle 850/1259
+[OPEN] BUY @ 93.40 | Inverted Hammer | Score=0.50 (ML=0.36)
+[CLOSE] BUY | Exit=97.05 | TP
+[OPEN] BUY @ 97.42 | 3 White Soldiers | Score=0.71 (ML=0.65)
+[CLOSE] BUY | Exit=97.47 | SL
+[OPEN] BUY @ 99.83 | Bullish Engulfing | Score=0.43 (ML=0.24)
+[CLOSE] BUY | Exit=98.41 | SL
+[REJECT] BUY | Inverted Hammer | Score=0.37 (ML=0.16)
+[OPEN] BUY @ 109.08 | Inverted Hammer | Score=0.41 (ML=0.22)
+Processed candle 900/1259
+[CLOSE] BUY | Exit=107.73 | SL
+[REJECT] SELL | Bearish Harami | Score=0.59 (ML=0.52)
+Processed candle 950/1259
+[OPEN] BUY @ 111.79 | Bullish Engulfing | Score=0.41 (ML=0.21)
+[CLOSE] BUY | Exit=115.82 | TP
+[OPEN] BUY @ 115.82 | Inverted Hammer | Score=0.41 (ML=0.16)
+[CLOSE] BUY | Exit=115.88 | SL
+[REJECT] BUY | Inverted Hammer | Score=0.35 (ML=0.11)
+[OPEN] BUY @ 116.52 | Bullish Engulfing | Score=0.38 (ML=0.10)
+[CLOSE] BUY | Exit=116.58 | SL
+[REJECT] BUY | Inverted Hammer | Score=0.36 (ML=0.13)
+Processed candle 1000/1259
+Processed candle 1050/1259
+[OPEN] BUY @ 141.20 | Inverted Hammer | Score=0.46 (ML=0.23)
+[CLOSE] BUY | Exit=141.27 | SL
+[REJECT] SELL | 3 Black Crows | Score=0.66 (ML=0.57)
+[OPEN] BUY @ 153.87 | Bullish Engulfing | Score=0.65 (ML=0.55)
+[CLOSE] BUY | Exit=151.88 | SL
+[OPEN] BUY @ 146.34 | Bullish Engulfing | Score=0.45 (ML=0.22)
+Processed candle 1100/1259
+[CLOSE] BUY | Exit=143.54 | SL
+[OPEN] BUY @ 158.81 | Morning Star | Score=0.58 (ML=0.40)
+[CLOSE] BUY | Exit=158.89 | SL
+[OPEN] BUY @ 161.60 | 3 White Soldiers | Score=0.70 (ML=0.57)
+[CLOSE] BUY | Exit=158.61 | SL
+Processed candle 1150/1259
+[REJECT] SELL | Double Top | Score=0.94 (ML=0.93)
+[OPEN] BUY @ 154.48 | Bullish Engulfing | Score=0.56 (ML=0.46)
+[CLOSE] BUY | Exit=154.56 | SL
+[OPEN] BUY @ 156.55 | Bullish Engulfing | Score=0.42 (ML=0.23)
+[CLOSE] BUY | Exit=156.63 | SL
+[OPEN] BUY @ 157.41 | Bullish Engulfing | Score=0.48 (ML=0.27)
+[CLOSE] BUY | Exit=161.61 | TP
+[OPEN] BUY @ 166.72 | Double Bottom | Score=0.89 (ML=0.86)
+[CLOSE] BUY | Exit=164.14 | SL
+Processed candle 1200/1259
+[OPEN] BUY @ 173.14 | Bullish Engulfing | Score=0.65 (ML=0.56)
+[CLOSE] BUY | Exit=170.53 | SL
+[OPEN] BUY @ 169.32 | Inverted Hammer | Score=0.44 (ML=0.34)
+[CLOSE] BUY | Exit=169.40 | SL
+[REJECT] SELL | Double Top | Score=0.75 (ML=0.62)
+[OPEN] BUY @ 173.97 | Bullish Engulfing | Score=0.50 (ML=0.36)
+[CLOSE] BUY | Exit=179.05 | TP
+[REJECT] SELL | 3 Black Crows | Score=0.78 (ML=0.77)
+Processed candle 1250/1259
+[OPEN] BUY @ 163.03 | Bullish Engulfing | Score=0.51 (ML=0.32)
+[CLOSE] BUY | Exit=159.27 | SL
+
+========================================
+       SIMULATION PERFORMANCE REPORT       
+========================================
+Final Capital: $99977.99
+Total Return : $-22.01 (-0.02%)
+Total Trades : 70
+Win Rate     : 45.71%
+Avg Win      : $1.59
+Avg Loss     : $-1.92
+----------------------------------------
+
+Performance by Pattern:
+3 White Soldiers     | Count: 12  | PnL: $-4.83
+Bullish Engulfing    | Count: 39  | PnL: $-5.71
+Bullish Harami       | Count: 3   | PnL: $-6.05
+Inverted Hammer      | Count: 10  | PnL: $0.22
+Double Bottom        | Count: 4   | PnL: $-3.51
+Morning Star         | Count: 2   | PnL: $-2.14
+========================================
+
+
+==================================================
+ 🚀 RUNNING ANALYSIS 2: EMA_ONLY (9x15 CROSSOVER) 
+==================================================
+Starting LIVE simulation: AAPL @ 100.0 (Mode: EMA_ONLY)
+Loading historical data for AAPL...
+Model loaded from ml/models/xgb_global_model.pkl
+Processed candle 0/1259
+Processed candle 50/1259
+[OPEN] BUY @ 63.25 | EMA_9x15_Cross | Score=1.00 (ML=1.00)
+[CLOSE] BUY | Exit=62.31 | SL
+[OPEN] SELL @ 62.70 | EMA_9x15_Cross | Score=1.00 (ML=1.00)
+[CLOSE] SELL | Exit=63.64 | SL
+Processed candle 100/1259
+[OPEN] BUY @ 61.04 | EMA_9x15_Cross | Score=1.00 (ML=1.00)
+[CLOSE] BUY | Exit=61.07 | SL
+Processed candle 150/1259
+Processed candle 200/1259
+Processed candle 250/1259
+[OPEN] BUY @ 77.78 | EMA_9x15_Cross | Score=1.00 (ML=1.00)
+[CLOSE] BUY | Exit=76.26 | SL
+[OPEN] BUY @ 75.91 | EMA_9x15_Cross | Score=1.00 (ML=1.00)
+[CLOSE] BUY | Exit=75.95 | SL
+Processed candle 300/1259
+Processed candle 350/1259
+[OPEN] BUY @ 101.00 | EMA_9x15_Cross | Score=1.00 (ML=1.00)
+[CLOSE] BUY | Exit=98.98 | SL
+Processed candle 400/1259
+Processed candle 450/1259
+Processed candle 500/1259
+[OPEN] SELL @ 123.38 | EMA_9x15_Cross | Score=1.00 (ML=1.00)
+[CLOSE] SELL | Exit=125.97 | SL
+Processed candle 550/1259
+Processed candle 600/1259
+Processed candle 650/1259
+[OPEN] SELL @ 109.06 | EMA_9x15_Cross | Score=1.00 (ML=1.00)
+[CLOSE] SELL | Exit=112.24 | SL
+Processed candle 700/1259
+[OPEN] BUY @ 119.03 | EMA_9x15_Cross | Score=1.00 (ML=1.00)
+[CLOSE] BUY | Exit=116.65 | SL
+Processed candle 750/1259
+Processed candle 800/1259
+Processed candle 850/1259
+[OPEN] BUY @ 96.98 | EMA_9x15_Cross | Score=1.00 (ML=1.00)
+[CLOSE] BUY | Exit=97.03 | SL
+Processed candle 900/1259
+Processed candle 950/1259
+[OPEN] BUY @ 111.57 | EMA_9x15_Cross | Score=1.00 (ML=1.00)
+[CLOSE] BUY | Exit=115.47 | TP
+Processed candle 1000/1259
+Processed candle 1050/1259
+[OPEN] SELL @ 141.20 | EMA_9x15_Cross | Score=1.00 (ML=1.00)
+[CLOSE] SELL | Exit=142.64 | SL
+[OPEN] SELL @ 145.42 | EMA_9x15_Cross | Score=1.00 (ML=1.00)
+Processed candle 1100/1259
+[CLOSE] SELL | Exit=145.35 | SL
+Processed candle 1150/1259
+Processed candle 1200/1259
+Processed candle 1250/1259
+
+========================================
+       SIMULATION PERFORMANCE REPORT       
+========================================
+Final Capital: $99989.06
+Total Return : $-10.94 (-0.01%)
+Total Trades : 13
+Win Rate     : 38.46%
+Avg Win      : $0.82
+Avg Loss     : $-1.88
+----------------------------------------
+
+Performance by Pattern:
+EMA_9x15_Cross       | Count: 13  | PnL: $-10.94
+========================================
+
+
+##################################################
+               FINAL COMPARISON                 
+##################################################
+Metric               | DEFAULT (ML+Pat) | EMA_ONLY (9x15)
+-------------------------------------------------------
+Total Return         | $-22.01         | $-10.94        
+Total Trades         | 70              | 13             
+Win Rate             | 45.7%           | 38.5%          
+Exec Time            | 106.9s            | 108.8s
+##################################################
+
