@@ -26,7 +26,7 @@ def scan_dataset(df, min_bars=100, cooldown_period=10):
     cooldown = 0             # candles remaining before new trade
 
     for i in range(min_bars, len(df)):
-        slice_df = df.iloc[:i].copy()
+        slice_df = df.iloc[max(0, i - 300):i].copy()
 
         # ⏸️ COOLDOWN CHECK (FIRST THING)
         if cooldown > 0:
@@ -85,22 +85,30 @@ def scan_dataset(df, min_bars=100, cooldown_period=10):
             double_top=dt
         )
 
-        # 🚫 BLOCK DUPLICATE POSITIONS
-        if signal["signal"] == "BUY" and position == "LONG":
-            continue
-        if signal["signal"] == "SELL" and position == "SHORT":
-            continue
+        action = signal["signal"]
 
-        # ✅ ENTER TRADE
-        if signal["signal"] in ["BUY", "SELL"]:
-            position = "LONG" if signal["signal"] == "BUY" else "SHORT"
-            cooldown = cooldown_period   # 🔥 START COOLDOWN
+        if action == "BUY" and position is None:
+            position = "LONG"
+            cooldown = cooldown_period
 
             results.append({
                 "index": i,
                 "date": slice_df["date"].iloc[-1],
                 "price": slice_df["close"].iloc[-1],
-                "signal": signal["signal"],
+                "signal": "BUY",
+                "confidence": signal["confidence"],
+                "trend": trend
+            })
+            
+        elif action == "SELL" and position == "LONG":
+            position = None
+            cooldown = cooldown_period
+
+            results.append({
+                "index": i,
+                "date": slice_df["date"].iloc[-1],
+                "price": slice_df["close"].iloc[-1],
+                "signal": "SELL", 
                 "confidence": signal["confidence"],
                 "trend": trend
             })

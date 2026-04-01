@@ -1,29 +1,30 @@
 import pandas as pd
+import numpy as np
+from scipy.signal import argrelextrema
 
 def detect_swings(df, window=3):
     swings = []
 
-    for i in range(window, len(df) - window):
-        high = df["high"].iloc[i]
-        low = df["low"].iloc[i]
+    if len(df) < window * 2 + 1:
+        return swings
 
-        is_swing_high = all(
-            high > df["high"].iloc[i - j] and high > df["high"].iloc[i + j]
-            for j in range(1, window + 1)
-        )
+    highs = df["high"].values
+    lows = df["low"].values
 
-        is_swing_low = all(
-            low < df["low"].iloc[i - j] and low < df["low"].iloc[i + j]
-            for j in range(1, window + 1)
-        )
+    swing_high_idx = argrelextrema(highs, np.greater, order=window)[0]
+    swing_low_idx = argrelextrema(lows, np.less, order=window)[0]
 
-        if is_swing_high:
-            swings.append((df.index[i], "HIGH", high))
+    for idx in swing_high_idx:
+        if window <= idx < len(df) - window:
+            swings.append((df.index[idx], "HIGH", highs[idx], idx))
 
-        if is_swing_low:
-            swings.append((df.index[i], "LOW", low))
+    for idx in swing_low_idx:
+        if window <= idx < len(df) - window:
+            swings.append((df.index[idx], "LOW", lows[idx], idx))
 
-    return swings
+    swings.sort(key=lambda x: x[3])
+
+    return [(s[0], s[1], s[2]) for s in swings]
 def label_structure(swings):
     structure = []
     last_high = None

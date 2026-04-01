@@ -218,13 +218,8 @@ def run_live_simulation(
                 if not scored.empty:
                     raw_prob = float(scored["ml_probability"].iloc[0])
                     
-                    # 3. Calibrate / Normalize Probability
-                    # The model is extremely conservative on simulated data (often < 0.05).
-                    # We map the 0.00-0.10 range to 0.00-0.60 to make it usable.
-                    if raw_prob < 0.10:
-                        ml_prob = raw_prob * 6.0  # Scale up low probs
-                    else:
-                        ml_prob = raw_prob
+                    # 3. ML Prob without calibration hacks
+                    ml_prob = raw_prob
                     
                     ml_prob = min(ml_prob, 0.95) # Cap at 0.95
             except Exception as e:
@@ -391,7 +386,7 @@ def run_live_simulation(
         if plotter:
             plotter.update(df, portfolio.trade_log, portfolio.cash)
             # time.sleep(0.001) # Fast mode
-            time.sleep(0.05)    # Normal mode for visual
+            # time.sleep(0.05)    # Normal mode for visual
 
     # ---------- SUMMARY ----------
     print("\n" + "="*40)

@@ -46,8 +46,8 @@ def predict_probabilities(model, features_df):
         if col not in X.columns:
             X[col] = 0.0
 
-    # Enforce correct order
-    X = X[FEATURE_COLUMNS]
+    # Enforce correct order and cast to float64 (prevents XGBoost DMatrix dtype errors)
+    X = X[FEATURE_COLUMNS].astype("float64")
 
     # Drop rows with NaNs
     X = X.dropna()

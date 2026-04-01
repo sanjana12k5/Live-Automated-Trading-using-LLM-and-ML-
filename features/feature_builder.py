@@ -88,12 +88,14 @@ def build_features(df, min_bars=100):
             "bear_breakdown": int(detect_bearish_breakdown(slice_df)),
 
             # Indicators
-            "atr": slice_df["atr"].iloc[-1],
-            "rsi": slice_df["rsi"].iloc[-1],
+            "atr": float(slice_df["atr"].iloc[-1]) if not pd.isna(slice_df["atr"].iloc[-1]) else 0.0,
+            "rsi": float(slice_df["rsi"].iloc[-1]) if not pd.isna(slice_df["rsi"].iloc[-1]) else 50.0,
             "volume_ratio": (
-                curr["volume"] /
-                slice_df["volume"].rolling(20).mean().iloc[-1]
-                if slice_df["volume"].rolling(20).mean().iloc[-1] else 1
+                float(curr["volume"]) /
+                float(slice_df["volume"].rolling(20).mean().iloc[-1])
+                if (not pd.isna(slice_df["volume"].rolling(20).mean().iloc[-1])
+                    and slice_df["volume"].rolling(20).mean().iloc[-1] > 0)
+                else 1.0
             ),
         }
 

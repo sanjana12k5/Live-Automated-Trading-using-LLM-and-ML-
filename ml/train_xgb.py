@@ -32,14 +32,52 @@ def process_symbol(symbol):
             return None
 
         signals = scan_dataset(df)
-        signal_dates = {s["date"] for s in signals}
+        profitable_dates = set()
 
-        features["label"] = features["date"].isin(signal_dates).astype(int)
+        for s in signals:
+            if s["signal"] != "BUY":
+                continue
+
+            entry_date = s["date"]
+            entry_price = s["price"]
+
+            feat_row = features[features["date"] == entry_date]
+            if feat_row.empty:
+                continue
+            atr = feat_row.iloc[0]["atr"]
+
+            if pd.isna(atr) or atr <= 0:
+                continue
+
+            sl = entry_price - (atr * 1.0)
+            tp = entry_price + (atr * 2.0)
+
+            idx_series = df.index[df["date"] == entry_date]
+            if len(idx_series) == 0:
+                continue
+            entry_idx = idx_series[0]
+
+            is_profitable = False
+            for i in range(entry_idx + 1, len(df)):
+                low = df["low"].iloc[i]
+                high = df["high"].iloc[i]
+
+                if low <= sl:
+                    is_profitable = False
+                    break
+                if high >= tp:
+                    is_profitable = True
+                    break
+
+            if is_profitable:
+                profitable_dates.add(entry_date)
+
+        features["label"] = features["date"].isin(profitable_dates).astype(int)
         return features
 
-    except Exception:
+    except Exception as e:
+        print(f"Error in {symbol}: {e}")
         return None
-
 
 def build_global_dataset():
     symbols = get_all_symbols()
