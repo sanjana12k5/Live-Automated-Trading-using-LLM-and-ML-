@@ -43,22 +43,22 @@ def run_live_simulation(
 ):
     print(f"Starting LIVE simulation: {symbol} @ {start_price} (Mode: {strategy_mode})")
 
-    # OPTIMIZED CONFIGURATION (Aggressive Long-Only)
+    # OPTIMIZED CONFIGURATION (Conservative Long-Bias)
     PATTERN_CONFIG = {
-        "Double Bottom":     {"thresh": 0.40, "min_ml": 0.55}, # Proven Winner
-        "Double Top":        {"thresh": 0.65, "min_ml": 0.55}, # Defensive
-        "Evening Star":      {"thresh": 0.65, "min_ml": 0.55}, # Defensive
-        "3 White Soldiers":  {"thresh": 0.40, "min_ml": 0.50}, # Aggressive Volume
-        "Hammer":            {"thresh": 0.65, "min_ml": 0.55}, # Defensive
-        "Bearish Engulfing": {"thresh": 0.65, "min_ml": 0.55}, # Defensive
-        "Inverted Hammer":   {"thresh": 0.40, "min_ml": 0.10}, 
-        "Bullish Engulfing": {"thresh": 0.30, "min_ml": 0.10}, # ULTRA AGGRESSIVE (Catch 0.34 scores)
-        "3 Black Crows":     {"thresh": 0.65, "min_ml": 0.55}, # Defensive
-        "Shooting Star":     {"thresh": 0.65, "min_ml": 0.55}, # Defensive
-        "Morning Star":      {"thresh": 0.35, "min_ml": 0.35}, # VERY AGGRESSIVE
+        "Double Bottom":     {"thresh": 0.60, "min_ml": 0.60}, # Proven Winner
+        "Double Top":        {"thresh": 0.70, "min_ml": 0.65}, # Defensive
+        "Evening Star":      {"thresh": 0.70, "min_ml": 0.65}, # Defensive
+        "3 White Soldiers":  {"thresh": 0.60, "min_ml": 0.60}, # Aggressive Volume
+        "Hammer":            {"thresh": 0.65, "min_ml": 0.60}, # Defensive
+        "Bearish Engulfing": {"thresh": 0.70, "min_ml": 0.65}, # Defensive
+        "Inverted Hammer":   {"thresh": 0.60, "min_ml": 0.60}, 
+        "Bullish Engulfing": {"thresh": 0.60, "min_ml": 0.60}, # Adjusted for higher win rate
+        "3 Black Crows":     {"thresh": 0.70, "min_ml": 0.65}, # Defensive
+        "Shooting Star":     {"thresh": 0.70, "min_ml": 0.65}, # Defensive
+        "Morning Star":      {"thresh": 0.60, "min_ml": 0.60}, # Adjusted for higher win rate
     }
     
-    DEFAULT_CONFIG = {"thresh": 0.55, "min_ml": 0.50}
+    DEFAULT_CONFIG = {"thresh": 0.65, "min_ml": 0.60}
 
     from data.processed.loader import load_stock
 
@@ -77,7 +77,7 @@ def run_live_simulation(
     model = load_model()
 
     MIN_ML_PROB = 0.6      # ML Enabled to reduce losses
-    COOLDOWN = 1           # Aggressive Re-entry
+    COOLDOWN = 15          # Conservative Re-entry: avoids consecutive trades
     last_trade_step = -999
 
     # ---------- LIVE LOOP ----------
@@ -317,7 +317,7 @@ def run_live_simulation(
             last_trade_step = step
 
             print(
-                f"💡 [SUGGESTION] {signal} @ {price:.2f} | "
+                f"[SUGGESTION] {signal} @ {price:.2f} | "
                 f"Reason: {pattern_name} | Score={final_score:.2f} | "
                 f"SL: {trade['sl']:.2f} | TP: {trade['tp']:.2f}"
             )
@@ -378,7 +378,7 @@ def run_live_simulation(
                 pnl = (exit_price - entry_price) * (1 if trade["signal"] == "BUY" else -1)
                 result_str = "PROFIT" if pnl > 0 else "LOSS"
                 print(
-                    f"✅ [RESULT] Closed {trade['signal']} | "
+                    f"[RESULT] Closed {trade['signal']} | "
                     f"Exit={exit_price:.2f} | Reason: {reason} | PnL: ${pnl:.2f} ({result_str})"
                 )
 

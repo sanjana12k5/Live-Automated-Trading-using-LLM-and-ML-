@@ -1,0 +1,34 @@
+========================================
+       SIMULATION PERFORMANCE REPORT       
+========================================
+Final Capital: $100000.17
+Total Return : $0.17 (0.00%)
+Total Trades : 13
+Win Rate     : 38.46%
+Avg Win      : $3.39
+Avg Loss     : $-2.10
+----------------------------------------
+
+Performance by Pattern:
+Inverted Hammer      | Count: 1   | PnL: $3.33
+Double Bottom        | Count: 6   | PnL: $0.20
+Bullish Harami       | Count: 1   | PnL: $-1.44
+Bullish Engulfing    | Count: 1   | PnL: $-1.42
+3 White Soldiers     | Count: 3   | PnL: $2.55
+Morning Star         | Count: 1   | PnL: $-3.04
+========================================
+
+--- ALL SUGGESTIONS (TRADE LOG) ---
+Date: 2013-09-19 00:00:00 | BUY | Pattern: Inverted Hammer | PNL: $3.33
+Date: 2013-11-26 00:00:00 | BUY | Pattern: Double Bottom | PNL: $-1.15
+Date: 2014-01-27 00:00:00 | BUY | Pattern: Bullish Harami | PNL: $-1.44
+Date: 2014-02-27 00:00:00 | BUY | Pattern: Bullish Engulfing | PNL: $-1.42
+Date: 2014-04-22 00:00:00 | BUY | Pattern: 3 White Soldiers | PNL: $2.10
+Date: 2014-09-04 00:00:00 | BUY | Pattern: Double Bottom | PNL: $3.16
+Date: 2014-10-15 00:00:00 | BUY | Pattern: Double Bottom | PNL: $-2.07
+Date: 2015-04-16 00:00:00 | BUY | Pattern: Double Bottom | PNL: $-2.06
+Date: 2015-10-06 00:00:00 | BUY | Pattern: 3 White Soldiers | PNL: $-3.02
+Date: 2016-02-23 00:00:00 | BUY | Pattern: Double Bottom | PNL: $4.90
+Date: 2016-06-30 00:00:00 | BUY | Pattern: 3 White Soldiers | PNL: $3.47
+Date: 2017-08-14 00:00:00 | BUY | Pattern: Morning Star | PNL: $-3.04
+Date: 2017-10-30 00:00:00 | BUY | Pattern: Double Bottom | PNL: $-2.58

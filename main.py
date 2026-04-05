@@ -128,6 +128,7 @@ for t in portfolio.trade_log[:5]:
 from simulator.live_simulator import run_live_simulation
 
 run_live_simulation(
-    symbol="AAPL"
+    symbol="AAPL",
+    enable_plot=False
 )
 
