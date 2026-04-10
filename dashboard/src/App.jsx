@@ -3,6 +3,7 @@ import Papa from 'papaparse';
 import TradingChart from './components/TradingChart';
 import SuggestionsFeed from './components/SuggestionsFeed';
 import { Activity, Zap } from 'lucide-react';
+import { generateMockOHLC } from './utils/MockDataGenerator';
 
 function App() {
   const [data, setData] = useState([]);
@@ -21,12 +22,22 @@ function App() {
           skipEmptyLines: true,
           complete: (results) => {
             let cumPnl = 0;
+            // Generate full length OHLC data corresponding to the number of rows
+            const mockCandles = generateMockOHLC(results.data.length, 150);
+
             const parsedData = results.data.map((row, index) => {
               cumPnl += (row.pnl || 0);
               return {
                 ...row,
                 id: index,
                 cumPnl: cumPnl,
+                time: mockCandles[index].time,
+                open: mockCandles[index].open,
+                high: mockCandles[index].high,
+                low: mockCandles[index].low,
+                close: mockCandles[index].close,
+                value: mockCandles[index].close, // Provide value for line chart compatibility
+                volume: mockCandles[index].volume,
               };
             });
             setData(parsedData);
