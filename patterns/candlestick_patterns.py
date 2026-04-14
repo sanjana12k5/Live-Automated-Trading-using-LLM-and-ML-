@@ -26,13 +26,15 @@ def detect_engulfing(prev, curr):
     bullish = (
         prev["close"] < prev["open"] and
         curr["close"] > curr["open"] and
-        curr["close"] > prev["open"]
+        curr["high"] > prev["high"] and
+        curr["low"] < prev["low"]
     )
 
     bearish = (
         prev["close"] > prev["open"] and
         curr["close"] < curr["open"] and
-        curr["close"] < prev["open"]
+        curr["high"] > prev["high"] and
+        curr["low"] < prev["low"]
     )
 
     return bullish, bearish
@@ -78,7 +80,7 @@ def detect_bullish_breakout(df, lookback=20):
 
     return (
         last["close"] > recent["high"].max() and
-        last["volume"] > recent["volume"].mean() * 1.5
+        last["volume"] > recent["volume"].mean() * 2.0
     )
 def detect_shooting_star(c):
     return (
@@ -114,5 +116,5 @@ def detect_bearish_breakdown(df, lookback=20):
 
     return (
         last["close"] < recent["low"].min() and
-        last["volume"] > recent["volume"].mean() * 1.5
+        last["volume"] > recent["volume"].mean() * 2.0
     )

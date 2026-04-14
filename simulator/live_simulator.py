@@ -234,7 +234,7 @@ def run_live_simulation(
         # ---------- DYNAMIC THRESHOLD LOOKUP ----------
         config = PATTERN_CONFIG.get(pattern_name, DEFAULT_CONFIG)
         THRESHOLD = config["thresh"]
-        min_ml_prob = config["min_ml"]
+        min_ml_prob = 0.87  # Enforced globally per user request
 
         # FILTER: ML Probability Check
         if ml_prob < min_ml_prob:
