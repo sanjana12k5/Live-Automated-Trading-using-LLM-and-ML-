@@ -350,3 +350,212 @@ body {
   color: #fff;
   box-shadow: 0 0 10px rgba(255,255,255,0.1);
 }
+
+/* Layout Overrides for Multi-Col */
+.dashboard-container.multi-col {
+  padding: 1.5rem;
+  gap: 1.5rem;
+}
+
+.left-sidebar {
+  flex: 0.8;
+  min-width: 250px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.right-sidebar {
+  flex: 1;
+  min-width: 320px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.chart-panel {
+  flex: 2;
+}
+
+/* Config Panel Styles */
+.config-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-control {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.form-control:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.slider-container input[type="range"] {
+  flex: 1;
+  accent-color: var(--accent-color);
+}
+
+.slider-value {
+  font-weight: 600;
+  color: #fff;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Switch styling for Auto Trade Toggle */
+.auto-trade-toggle-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.03);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.05);
+  margin-top: 1rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider.round {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255,255,255,0.1);
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--text-muted);
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider.round {
+  background-color: var(--buy-color);
+  box-shadow: 0 0 15px rgba(0, 255, 163, 0.3);
+}
+
+input:checked + .slider.round:before {
+  transform: translateX(22px);
+  background-color: #fff;
+}
+
+/* Badge in header */
+.active-trade-badge {
+  background: rgba(0, 255, 163, 0.1);
+  color: var(--buy-color);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid rgba(0, 255, 163, 0.3);
+  box-shadow: 0 0 15px rgba(0, 255, 163, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.active-trade-badge::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--buy-color);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+/* Execution Log Table */
+.execution-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.execution-table th {
+  text-align: left;
+  padding: 10px;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  font-weight: 500;
+  position: sticky;
+  top: 0;
+  background: var(--bg-panel);
+}
+
+.execution-table td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  color: #fff;
+}
+
+.trade-row:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.trade-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.trade-badge.buy { color: var(--buy-color); background: rgba(0, 255, 163, 0.1); }
+.trade-badge.sell { color: var(--sell-color); background: rgba(255, 51, 102, 0.1); }
+
+.pnl-positive { color: var(--buy-color); text-shadow: 0 0 5px rgba(0, 255, 163, 0.3); font-weight: 600; }
+.pnl-negative { color: var(--sell-color); text-shadow: 0 0 5px rgba(255, 51, 102, 0.3); font-weight: 600; }
