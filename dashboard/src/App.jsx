@@ -101,7 +101,7 @@ function App() {
           Nexus Trade
         </h1>
         
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           {isAutoTrading && (
             <div className="active-trade-badge">
               Auto-Trade Active
@@ -137,7 +137,6 @@ function App() {
             </h2>
             <button 
               className={`suggestion-badge ${isSimulating ? 'sell' : 'buy'}`} 
-              style={{ cursor: 'pointer', outline: 'none' }}
               onClick={() => setIsSimulating(!isSimulating)}
             >
               {isSimulating ? 'Pause Simulation' : 'Start Simulation'}

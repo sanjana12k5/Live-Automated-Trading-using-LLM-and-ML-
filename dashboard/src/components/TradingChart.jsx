@@ -22,25 +22,20 @@ const TradingChart = ({ data }) => {
     <div style={{ width: '100%', height: 'calc(100% - 20px)', display: 'flex', flexDirection: 'column' }}>
       
       {/* Analytics Overlay Bar for ML Data */}
-      <div className="analytics-bar">
+      <div className="analytics-overlay">
         <div className="metric-card">
-          <span className="metric-label">ML Total Ticks</span>
-          <span className="metric-value">{totalTrades}</span>
+          <span className="metric-label">Processed Signals</span>
+          <span className="metric-value mono-font">{totalTrades}</span>
         </div>
         <div className="metric-card">
-          <span className="metric-label">ML Win Rate</span>
-          <span className="metric-value">{winRate}%</span>
+          <span className="metric-label">Strategy Win Rate</span>
+          <span className="metric-value mono-font">{winRate}%</span>
         </div>
-        <div className="metric-card" style={{ borderRight: 'none' }}>
+        <div className="metric-card">
           <span className="metric-label">Local Net PnL</span>
-          <span className={`metric-value ${currentCumPnl >= 0 ? 'buy' : 'sell'}`}>
+          <span className={`metric-value mono-font ${currentCumPnl >= 0 ? 'buy' : 'sell'}`}>
             {currentCumPnl >= 0 ? '+' : ''}{currentCumPnl.toFixed(2)}
           </span>
-        </div>
-        
-        {/* Helper text about the integration limitation */}
-        <div style={{ marginLeft: 'auto', alignSelf: 'center', background: 'var(--bg-panel-hover)', padding: '8px 12px', borderRadius: '8px', fontSize: '0.85rem', color: 'var(--text-muted)', border: '1px solid rgba(255,255,255,0.05)', maxWidth: '300px' }}>
-          <span style={{color: 'var(--buy-color)'}}>Note:</span> This is the full TradingView widget. It uses live market data. Local custom ML indicators (data.csv) are displayed in the feed/metrics panels.
         </div>
       </div>
 

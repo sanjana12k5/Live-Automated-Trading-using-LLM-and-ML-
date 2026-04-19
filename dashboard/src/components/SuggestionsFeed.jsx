@@ -27,13 +27,13 @@ const SuggestionsFeed = ({ suggestions }) => {
               <span className={`suggestion-badge ${isBuy ? 'buy' : 'sell'}`}>
                 {item.signal}
               </span>
-              <span style={{ 
+              <span className="mono-font" style={{ 
                 fontSize: '0.85rem', 
                 color: 'var(--text-muted)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                background: 'rgba(0,0,0,0.2)',
+                background: 'rgba(0,0,0,0.3)',
                 padding: '4px 8px',
                 borderRadius: '8px'
               }}>
@@ -43,13 +43,13 @@ const SuggestionsFeed = ({ suggestions }) => {
             
             <div className="suggestion-pattern" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <div style={{ 
-                background: isBuy ? 'rgba(0,255,163,0.1)' : 'rgba(255,51,102,0.1)',
-                padding: '8px', 
-                borderRadius: '50%',
+                background: isBuy ? 'rgba(0, 230, 118, 0.1)' : 'rgba(255, 23, 68, 0.1)',
+                padding: '10px', 
+                borderRadius: '12px',
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'center',
-                boxShadow: isBuy ? '0 0 10px rgba(0,255,163,0.2)' : '0 0 10px rgba(255,51,102,0.2)'
+                boxShadow: isBuy ? '0 0 15px rgba(0, 230, 118, 0.2)' : '0 0 15px rgba(255, 23, 68, 0.2)'
               }}>
                 {isBuy ? <TrendingUp size={20} color="var(--buy-color)" /> : <TrendingDown size={20} color="var(--sell-color)" />}
               </div>
@@ -57,8 +57,8 @@ const SuggestionsFeed = ({ suggestions }) => {
             </div>
             
             <div className="suggestion-details">
-              <span style={{ letterSpacing: '0.5px' }}>Confidence Score</span>
-              <span style={{ fontWeight: 700, color: '#fff', fontSize: '1.05rem', textShadow: '0 0 5px rgba(255,255,255,0.3)' }}>
+              <span style={{ letterSpacing: '0.5px', textTransform: 'uppercase', fontSize: '0.8rem', fontWeight: 600 }}>Confidence Level</span>
+              <span className="mono-font" style={{ fontWeight: 700, color: '#fff', fontSize: '1.15rem', textShadow: '0 0 10px rgba(255,255,255,0.4)' }}>
                 {scorePct}%
               </span>
             </div>
